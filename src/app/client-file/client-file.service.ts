@@ -13,8 +13,8 @@ export class ClientService {
   constructor(private http: HttpClient) { }
 
 
-  // private clientUrl = 'https://client-file.herokuapp.com/risk-management/client';
-   private clientUrl = 'http://localhost:8085/risk-management/client';
+  private clientUrl = 'https://risk-management-backend.herokuapp.com/risk-management/client';
+   //private clientUrl = 'http://localhost:8085/risk-management/client';
 
   private noteDocUrl = this.clientUrl + '/note/file';
 
