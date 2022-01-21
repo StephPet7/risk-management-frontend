@@ -1,0 +1,6 @@
+<app-sidebar (titleEmitter)="setTitle($event)"></app-sidebar>
+<app-header [title]="title"></app-header>
+
+<div class="md:w-4/5 fixed right-0 top-20 overflow-x-hidden z-20 p-5 mb-10 overflow-y-scroll h-full">
+    <router-outlet></router-outlet>
+</div>

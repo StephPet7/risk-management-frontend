@@ -1,0 +1,336 @@
+<div class="mb-40">
+    <div class="w-full flex justify-center items-center mt-3">
+        <span class="mr-5 text-base">Sélectionner client: </span>
+        <form class="">
+            <input class="client_selection_input" type="text" id="selection_input" placeholder="Saisir client" [formControl]="control" [matAutocomplete]="auto">
+            <label class="cursor-pointer" for="selection_input"><fa-icon class="relative right-5 z-0" [icon]="chevron_down"></fa-icon></label>
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let client of filteredClients | async" [value]="client">
+                    {{client}}
+                </mat-option>
+            </mat-autocomplete>
+        </form>
+    </div>
+    <div>
+        <form [formGroup]="clientInfo" class="client_form">
+            <div class="col-span-6 col-start-1">
+                <div class="flex items-center">
+                    <label for="name" class="client_form_label">
+                        Nom:
+                    </label>
+                    <input type="text" name="name" formControlName="name" [(ngModel)]="selected_client.name" id="name" class="client_form_input" placeholder="nom">
+                </div>
+            </div>
+            <div class="col-span-3 col-start-7">
+                <div class="flex items-center">
+                    <label for="profession" class="client_form_label">
+                        Profession:
+                    </label>
+                    <input type="text" name="profession" formControlName="profession" [(ngModel)]="selected_client.profession" id="profession" class="client_form_input" placeholder="profession">
+                </div>
+            </div>
+            <div class="col-span-3 col-start-1">
+                <div class="flex items-center">
+                    <label for="category" class="client_form_label">
+                        Category:
+                    </label>
+                    <input type="text" name="category" formControlName="category" [(ngModel)]="selected_client.category" id="category" class="client_form_input" placeholder="category">
+                </div>
+            </div>
+
+            <div class="col-span-3 col-start-4">
+                <div class="flex items-center">
+                    <label for="tel" class="client_form_label">
+                        Tel:
+                    </label>
+                    <input type="tel" name="tel" formControlName="tel" [(ngModel)]="selected_client.tel" id="tel" class="client_form_input" placeholder="tel">
+                </div>
+            </div>
+            <div class="col-span-3 col-start-7">
+                <div class="flex items-center">
+                    <label for="email" class="client_form_label">
+                        Email:
+                    </label>
+                    <input type="email" name="email" formControlName="email" [(ngModel)]="selected_client.email" id="email" class="client_form_input" placeholder="email">
+                </div>
+            </div>
+            <div class="col-span-2 col-start-1">
+                <div class="flex items-center">
+                    <label for="address" class="client_form_label">
+                        Address:
+                    </label>
+                    <input type="text" name="address" formControlName="address" [(ngModel)]="selected_client.address" id="address" class="client_form_input" placeholder="address">
+                </div>
+            </div>
+
+            <div class="col-span-2 col-start-3">
+                <div class="flex items-center">
+                    <label for="ville" class="client_form_label">
+                        Ville:
+                    </label>
+                    <input type="text" name="town" formControlName="town" id="ville" [(ngModel)]="selected_client.town" class="client_form_input" placeholder="ville">
+                </div>
+            </div>
+            <div class="col-span-2 col-start-5">
+                <div class="flex items-center">
+                    <label for="linkedin" class="client_form_label">
+                        <fa-icon class="text-lg" [icon]="linked_icon"></fa-icon>
+                    </label>
+                    <input type="text" name="linkedIn_link" formControlName="linkedIn_link" [(ngModel)]="selected_client.linkedIn_link" id="linkedin" class="client_form_input" placeholder="linkedin">
+                </div>
+            </div>
+            <div class="col-span-1 col-start-7">
+                <div class="flex items-center">
+                    <label for="cp" class="client_form_label">
+                        CP:
+                    </label>
+                    <input type="text" name="cp" formControlName="cp" [(ngModel)]="selected_client.cp" id="cp" class="client_form_input" placeholder="cp">
+                </div>
+            </div>
+            <div class="col-span-2 col-start-8">
+                <div class="flex items-center h-full">
+                    <label for="notation" class="client_form_label">
+                        Notation:
+                    </label>
+                    <div class="flex">
+                        <fa-icon class="text-yellow-600 text-lg" [icon]="notation_icon"></fa-icon>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="account_table_section">
+            <table class="account_table td_line">
+                <thead>
+                    <th colspan="5" class="h-8 tb">Tableau Suivi Compte</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="account_table_col td_line">Score Global</td>
+                        <td class="account_table_col td_line">Ratios</td>
+                        <td class="account_table_col td_line">Risques</td>
+                        <td class="account_table_col td_line">Status</td>
+                        <td class="account_table_col td_line">Plan d'investissement</td>
+                    </tr>
+                    <tr>
+                        <td class="account_table_col">
+                            <div [ngSwitch]="account_table.score"
+                                [popover]="scorePopover"
+                                popoverPlacement="bottom"
+                                [popoverOnHover]="true"
+                                [popoverCloseOnClickOutside]="false"
+                                [popoverCloseOnMouseOutside]="true"
+                                [popoverDisabled]="false"
+                                [popoverAnimation]="true"
+                                [popoverDismissTimeout]="10000">
+                                <fa-icon [icon]="scoreIcon" class="account_icon" [ngClass]="scoreColor"></fa-icon>
+                            </div>
+                            <popover-content #scorePopover
+                                [closeOnMouseOutside]="true"
+                                [closeOnClickOutside]="true">
+                                <div class="absolute shadow bg-indigo-200">
+                                    <button (click)="scoreIcon=score_icon; scoreColor='text-yellow-500'"><fa-icon [icon]="score_icon" class="account_icon text-yellow-500 m-2"></fa-icon></button>
+                                    <button (click)="scoreIcon=ratio_icon; scoreColor='text-black-500'"><fa-icon [icon]="ratio_icon" class="account_icon m-2"></fa-icon></button>
+                                    <button (click)="scoreIcon=risk_icon; scoreColor='text-red-500'"><fa-icon [icon]="risk_icon" class="account_icon text-red-500 m-2"></fa-icon></button>
+                                </div>
+                            </popover-content>
+                        </td>
+                        <td class="account_table_col">
+                            <div [popover]="ratioPopover"
+                                popoverPlacement="bottom"
+                                [popoverOnHover]="true"
+                                [popoverCloseOnClickOutside]="false"
+                                [popoverCloseOnMouseOutside]="true"
+                                [popoverDisabled]="false"
+                                [popoverAnimation]="true"
+                                [popoverDismissTimeout]="10000">
+                                <fa-icon [icon]="ratioIcon" class="account_icon" [ngClass]="ratioColor"></fa-icon>
+                            </div>
+                            <popover-content #ratioPopover
+                                [closeOnMouseOutside]="true"
+                                [closeOnClickOutside]="true">
+                                <div class="absolute shadow bg-indigo-200">
+                                    <button (click)="ratioIcon=score_icon; ratioColor='text-yellow-500'"><fa-icon [icon]="score_icon" class="account_icon text-yellow-500 m-2"></fa-icon></button>
+                                    <button (click)="ratioIcon=ratio_icon; ratioColor='text-black-500'"><fa-icon [icon]="ratio_icon" class="account_icon m-2"></fa-icon></button>
+                                    <button (click)="ratioIcon=risk_icon; ratioColor='text-red-500'"><fa-icon [icon]="risk_icon" class="account_icon text-red-500 m-2"></fa-icon></button>
+                                </div>
+                            </popover-content>
+                        </td>
+                        <td class="account_table_col">
+                            <div [popover]="riskPopover"
+                                popoverPlacement="left"
+                                [popoverOnHover]="true"
+                                [popoverCloseOnClickOutside]="false"
+                                [popoverCloseOnMouseOutside]="true"
+                                [popoverDisabled]="false"
+                                [popoverAnimation]="true"
+                                [popoverDismissTimeout]="10000">
+                                <fa-icon [icon]="riskIcon" class="account_icon" [ngClass]="riskColor"></fa-icon>
+                            </div>
+                            <popover-content #riskPopover
+                                [closeOnMouseOutside]="true"
+                                [closeOnClickOutside]="true">
+                                <div class="absolute shadow bg-indigo-200">
+                                    <button (click)="riskIcon=score_icon; riskColor='text-yellow-500'"><fa-icon [icon]="score_icon" class="account_icon text-yellow-500 m-2"></fa-icon></button>
+                                    <button (click)="riskIcon=ratio_icon; riskColor='text-black-500'"><fa-icon [icon]="ratio_icon" class="account_icon m-2"></fa-icon></button>
+                                    <button (click)="riskIcon=risk_icon; riskColor='text-red-500'"><fa-icon [icon]="risk_icon" class="account_icon text-red-500 m-2"></fa-icon></button>
+                                </div>
+                            </popover-content>
+                        </td>
+                        <td class="account_table_col">
+                            <fa-icon [icon]="status_icon" class="account_icon text-green-500"></fa-icon>
+                        </td>
+                        <td class="account_table_col">
+                            <fa-icon [icon]="eye_icon" class="account_icon"></fa-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="notes_section">
+            <div class="w-full text-center font-bold border border-black bg-gray-300">Notes</div>
+            <div class="note_table_container">
+                <table mat-table [dataSource]="datasource" class="w-full" matSort matSortActive="date;status;offer;offer_date" matSortDisableClear matSortDirection="desc">
+
+                    <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.creation_date}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="note">
+                        <th mat-header-cell *matHeaderCellDef> Note </th>
+                        <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+                    </ng-container>
+
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Status </th>
+                        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                    </ng-container>
+
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="document_status">
+                        <th mat-header-cell *matHeaderCellDef> Dossier </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="flex">
+                                <div class="mr-auto">
+                                    {{element.document_status}}
+                                </div>
+                                <div *ngIf="element.filename !== '' && element.filename !== null" class="flex">
+                                    <label class="cursor-pointer mr-2" for="file_upload"><fa-icon class="text-lg ml-1" [icon]="file_upload_icon"></fa-icon></label>
+                                    <input class="hidden w-0" id="file_upload" type="file" />
+                                    <!-- <button (click)="downloadFile(element.filename)"><fa-icon class="text-lg ml-1 mr-1" [icon]="search_icon"></fa-icon></button> -->
+                                    <a target="_blank" [href]="'https://client-file.herokuapp.com/risk-management/client/note/file/' + element.filename"><fa-icon class="text-lg ml-1 mr-1" [icon]="search_icon"></fa-icon></a>
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="offer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Offre </th>
+                        <td mat-cell *matCellDef="let element"> {{element.offer}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="offer_date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.offer_date}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+
+            <form [formGroup]="noteForm" (ngSubmit)="onSubmit()" class="pt-0 h-8 bg-white w-full flex">
+                <div class="w-2/12">
+                    <span class="flex flex-row justify-around items-center p-0 w-full h-full">
+                        <button type="submit" class="font-bold">
+                          <span class="new_need">Nouveau besoin</span>
+                          <fa-icon class="bg-green-600 rounded text-lg w-7 h-7 text-center" [icon]="plus_icon"></fa-icon>
+                        </button>
+                    </span>
+                </div>
+                <div class="p-0 w-3/12"><input formControlName="note" class="notes_table_input w-full h-full note_table_form_element" placeholder="note" type="text"></div>
+                <div class="p-0 w-1/12">
+                    <select formControlName="status" class="note_table_form_element w-full text-sm">
+                        <option value="INPROGRESS" selected>En cours</option>
+                        <option value="PENDING">En attente</option>
+                        <option value="TREATED">Traite</option>
+                    </select>
+
+                </div>
+                <div class="p-0 flex w-2/12">
+                    <select formControlName="document_status" class="note_table_form_element flex-1 text-sm">
+                        <option value="INPROGRESS" selected>En cours</option>
+                        <option value="PENDING">En attente</option>
+                        <option value="TREATED">Traite</option>
+                    </select>
+                    <div class="p-1">
+                        <label class="cursor-pointer" for="file_upload1"><fa-icon class="text-lg ml-1" [icon]="file_upload_icon"></fa-icon></label>
+                        <input class="hidden" id="file_upload1" type="file" (change)="onSelectFile($event)" />
+                    </div>
+                </div>
+                <div class="p-0 w-3/12"><input formControlName="offer" placeholder="offer" class="notes_table_input w-full h-full note_table_form_element" type="text"></div>
+                <div class="p-0 w-1/12">
+                    <input formControlName="offer_date" class="notes_table_input w-full note_table_form_element h-full" type="date">
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="grid gap-6 grid-cols-6 doc">
+        <div class="col-span-4 col-start-1 flex flex-col">
+            <div class="grid gap-x-1 gap-y-0 grid-cols-12 p-2 bg-gray-200 mt-20">
+                <div class="col-span-12 flex justify-center font-bold pb-3">Dossier</div>
+                <div class="col-span-4 col-start-7"><input class="doc_form_element" type="text"></div>
+                <div class="col-span-4 col-start-1">Stratégie de démarrage</div>
+                <div>
+                    <label class="cursor-pointer" for="file_upload1"><fa-icon class="text-lg ml-1 p-1" [icon]="file_upload_icon"></fa-icon></label>
+                    <input class="hidden" id="file_upload1" type="file" />
+                </div>
+                <div class="col-span-1 col-start-6">
+                    <fa-icon class="doc_icon" [icon]="eye_icon"></fa-icon>
+                </div>
+                <div class="col-span-1 col-start-7">
+                    <select name="strategy_status" id="" class="doc_form_element">
+                        <option value="correct" selected><fa-icon class="select_icon" [icon]="check_icon"></fa-icon></option>
+                        <option value="wrong"><fa-icon class="select_icon" [icon]="uncheck_icon"></fa-icon></option>
+                    </select>
+                </div>
+                <div class="col-span-5 col-start-8 flex items-center pl-5">Demander complement</div>
+                <div class="col-span-4 col-start-1">Plan de déploiement</div>
+                <div>
+                    <label class="cursor-pointer" for="file_upload2"><fa-icon class="text-lg ml-1 p-1" [icon]="file_upload_icon"></fa-icon></label>
+                    <input class="hidden" id="file_upload2" type="file" />
+                </div>
+                <div class="col-span-1 col-start-6">
+                    <fa-icon class="doc_icon" [icon]="eye_icon"></fa-icon>
+                </div>
+                <div class="col-span-1 col-start-7">
+                    <select name="plan_status" id="" class="doc_form_element">
+                        <option value="correct" selected><fa-icon class="select_icon" [icon]="check_icon"></fa-icon></option>
+                        <option value="wrong"><fa-icon class="select_icon" [icon]="uncheck_icon"></fa-icon></option>
+                    </select>
+                </div>
+                <div class="col-span-5 col-start-8"><input class="doc_form_element" type="text"></div>
+            </div>
+            <div class="flex justify-end mt-auto">
+                <button class="doc_button bg-gray-200">Annuler</button>
+                <button class="doc_button bg-indigo-200">Valider</button>
+            </div>
+        </div>
+        <div class="col-span-2 col-start-5">
+            <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" class="charts"></highcharts-chart>
+        </div>
+    </div>
+
+</div>

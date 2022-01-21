@@ -1,0 +1,177 @@
+.client_selection_input {
+    @apply rounded h-8 static z-10 pr-5;
+}
+
+.client_form {
+    @apply grid grid-cols-9 gap-5 mt-14 bg-violet-200 p-5 rounded;
+}
+
+.client_form_input {
+    @apply block border focus:border-indigo-600 rounded-md sm:text-sm border-gray-500 h-8 w-full;
+}
+
+.client_form_label {
+    @apply block text-sm font-medium text-gray-700 mr-2;
+}
+
+.account_table_section {
+    @apply w-full flex justify-center mt-8;
+}
+
+.account_table {
+    @apply table-fixed w-3/5;
+}
+
+.account_table_col {
+    @apply w-1/5 text-center h-14 p-1;
+}
+
+.account_icon {
+    @apply text-base;
+}
+
+.td_line {
+    @apply border border-black;
+}
+
+.notes_section {
+    @apply mt-6 w-full px-8;
+}
+
+.notes_table_head2 {
+    @apply bg-gray-300 border border-black h-8;
+}
+
+.notes_table_head2_title {
+    @apply p-2 cursor-pointer;
+}
+
+.notes_head_title2 {
+    @apply mr-3;
+}
+
+.notes_head_title_container {
+    @apply flex items-center justify-center;
+}
+
+.notes_table_cell {
+    @apply p-1 border-l border-r border-t border-black;
+}
+
+.notes_table_input {
+    @apply border-black focus:outline-none focus:border-black !important;
+}
+
+.note_table_form_element {
+    @apply h-9 border border-black;
+}
+
+.note_table_col1 {
+    @apply w-2/12;
+}
+
+.note_table_col2 {
+    @apply w-3/12;
+}
+
+.note_table_col3 {
+    @apply w-1/12;
+}
+
+.note_table_col4 {
+    @apply w-2/12;
+}
+
+.note_table_col5 {
+    @apply w-3/12;
+}
+
+.note_table_col6 {
+    @apply w-1/12;
+}
+
+.note_table_container {
+    max-height: 115px;
+    @apply w-full overflow-y-auto;
+}
+
+
+
+.table_column_common {
+    @apply border text-center border-black text-sm;
+}
+
+.mat-column-date {
+    @apply w-2/12 table_column_common;
+}
+
+.mat-column-note {
+    @apply w-3/12 table_column_common;
+}
+
+.mat-column-status {
+    @apply w-1/12 table_column_common;
+}
+
+.mat-column-document_status {
+    @apply w-2/12 table_column_common;
+}
+
+.mat-column-offer {
+    @apply w-3/12 table_column_common;
+}
+
+.mat-column-offer_date {
+    @apply w-1/12 table_column_common;
+}
+
+.mat-header-cell {
+    @apply text-black font-bold border border-black;
+}
+
+.note_table_container th {
+    @apply border border-black;
+}
+
+tr.mat-header-row {
+    @apply h-8 bg-gray-300;
+}
+
+tr.mat-row {
+    @apply h-10;
+}
+
+
+
+.doc {
+    @apply mt-8;
+}
+
+.doc_form_element {
+    @apply h-7 focus:border-black;
+}
+
+.doc_icon {
+    @apply text-sm cursor-pointer;
+}
+
+.select_icon {
+    @apply w-1 h-1 float-left;
+}
+
+.doc_button {
+    @apply mx-5 rounded flex justify-center items-center px-5 py-2;
+}
+
+.charts {
+    height: 300px;
+    @apply w-full block;
+}
+
+.new_need {
+  margin-right: 7px;
+}
+
+.new_need + fa-icon {
+  width: 10px;
+}
