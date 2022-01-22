@@ -11,6 +11,7 @@ import { ClientService } from './client-file.service';
 import { DatePipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 
+
 @Component({
   selector: 'app-client-file',
   templateUrl: './client-file.component.html',
@@ -93,6 +94,9 @@ export class ClientFileComponent implements OnInit {
      }
      this.datasource.data = this.selected_client.notes;
      this.noteForm.reset();
+
+     this.getClients();
+     this.ngOnInit();
 
     // if(this.file !== null && this.file !== undefined){
     //   this.uploadFile(this.file);
