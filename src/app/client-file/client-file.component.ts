@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { faChevronDown, faSun, faPlus, faPaperclip, faSearch, faEye, faStar, faCertificate, faCloudMoonRain, faCircle } from '@fortawesome/free-solid-svg-icons';
 import  { faTimesCircle, faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import {FormBuilder, FormControl} from '@angular/forms';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {startWith, map} from 'rxjs/operators';
 import * as Highcharts from "highcharts";
 import {Account, Note, Client, Status} from './client-file.client';
 import { ClientService } from './client-file.service';
 import { DatePipe } from '@angular/common';
-import * as fileSaver from 'file-saver';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -22,23 +21,23 @@ export class ClientFileComponent implements OnInit {
 
    noteForm = this.formBuilder.group({
       creation_date: '',
-      note: '',
-      status: '',
-      document_status: '',
+      note: ['', Validators.required],
+      status: ['', Validators.required],
+      document_status: ['', Validators.required],
       filename: '',
       offer: '',
       offer_date: '',
    });
 
    clientInfo = this.formBuilder.group({
-    name: '',
-    profession: '',
-    category: '',
-    tel: '',
-    email: '',
-    address: '',
-    town: '',
-    linkedIn_link: '',
+    name: ['', Validators.required],
+    profession: ['', Validators.required],
+    category: ['', Validators.required],
+    tel: ['', Validators.required],
+    email: ['', Validators.required],
+    address: ['', Validators.required],
+    town: ['', Validators.required],
+    linkedIn_link: ['', Validators.required],
     cp: '',
     notation: '',
    });
@@ -58,7 +57,7 @@ export class ClientFileComponent implements OnInit {
      console.log(this.file);
    }
 
-   onSubmit(){
+   onSubmit(isNoteButton: boolean){
     console.warn('Submitted client form: ', this.clientInfo.value);
     console.warn('Submitted selected client form: ', this.selected_client);
     let today = new Date();
@@ -78,20 +77,22 @@ export class ClientFileComponent implements OnInit {
       this.clientService.uploadNoteDoc(this.file).subscribe(respons => {
         console.log('file upload response and filename: ' + respons + ' <-> ' + respons.filename);
         this.noteForm.value.filename = respons.filename;
-
-        console.warn('Submitted note form: ', this.noteForm.value);
-        this.selected_client.notes.push(this.noteForm.value);
-        this.addClient(this.selected_client);
-        this.datasource.data = this.selected_client.notes;
-        this.noteForm.reset();
       });
-    } else {
-      console.warn('Submitted note form: ', this.noteForm.value);
-      this.selected_client.notes.push(this.noteForm.value);
-      this.addClient(this.selected_client);
-      this.datasource.data = this.selected_client.notes;
-      this.noteForm.reset();
     }
+     console.warn('Submitted note form: ', this.noteForm.value);
+     if(this.noteForm.valid) this.selected_client.notes.push(this.noteForm.value);
+     if(isNoteButton) {
+       if(!this.selected_client.id) {
+         console.log(this.selected_client.id);
+         this.addNote(this.selected_client.id, this.noteForm.value);
+       }
+       else this.addClient(this.selected_client)
+     }
+     else {
+       this.addClient(this.selected_client);
+     }
+     this.datasource.data = this.selected_client.notes;
+     this.noteForm.reset();
 
     // if(this.file !== null && this.file !== undefined){
     //   this.uploadFile(this.file);
@@ -103,6 +104,17 @@ export class ClientFileComponent implements OnInit {
     // // this.getClients;
     // this.selected_client.notes.push(this.noteForm.value);
 
+   }
+
+   addNote(id: string, note: Note) {
+     this.clientService.addNote(id, note).subscribe(
+       (client)=> {
+         this.selected_client.notes = client.notes
+       },
+       (error)=> {
+         console.log(error);
+       }
+     )
    }
 
   clients: Client[] = [];
@@ -125,7 +137,7 @@ export class ClientFileComponent implements OnInit {
     tel: "",
     email: "",
     address: "",
-    town: "Adamawa",
+    town: "",
     linkedIn_link: "",
     cp: "",
     notation: 0,
@@ -294,6 +306,5 @@ export class ClientFileComponent implements OnInit {
       this.clients_name.push(client.name);
     }
   }
-
 
 }

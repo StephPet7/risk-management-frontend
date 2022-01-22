@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, retry, map, tap } from 'rxjs/operators';
-import { Client } from './client-file.client';
+import {Client, Note} from './client-file.client';
 
 const headers = new HttpHeaders()
     .set("Content-Type", "application/json")
@@ -13,7 +13,7 @@ export class ClientService {
   constructor(private http: HttpClient) { }
 
 
-  private clientUrl = 'https://risk-management-backend.herokuapp.com/risk-management/client';
+   private clientUrl = 'https://risk-management-backend.herokuapp.com/risk-management/client';
    //private clientUrl = 'http://localhost:8085/risk-management/client';
 
   private noteDocUrl = this.clientUrl + '/note/file';
@@ -32,36 +32,41 @@ export class ClientService {
       );
   }
 
-
-
-uploadNoteDoc(file: File): Observable<any> {
-  const data: FormData = new FormData();
-  data.append('file', file);
-
-  return this.http.post(this.noteDocUrl, data).pipe(
-    tap(_ => console.log('uploading note doc clients')),
-    catchError(this.handleError<Client>('uploadingNoteDoc'))
-  );
-
-}
-
-downloadNoteDoc(filename: String): Observable<HttpEvent<Blob>>{
-  return this.http.get(this.noteDocUrl + '/' + filename, {observe: 'events', responseType: 'blob'}).pipe(
-    tap(_ => console.log('downloading note doc clients')),
-    catchError(this.handleError<HttpEvent<Blob>>('downloadNoteDoc'))
-  );
-}
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      console.error(error); // log to console instead
-
-      console.log(`${operation} failed: ${error.message}`);
-
-      return of(result as T);
-    };
+  addNote(id: string, note: Note): Observable<Client> {
+    return this.http.post<Client>(this.clientUrl + "/note/"+ id, note, {headers}).pipe(
+      tap(_ => console.log('Update note')),
+      catchError(this.handleError<Client>('addNote'))
+    );
   }
+
+  uploadNoteDoc(file: File): Observable<any> {
+    const data: FormData = new FormData();
+    data.append('file', file);
+
+    return this.http.post(this.noteDocUrl, data).pipe(
+      tap(_ => console.log('uploading note doc clients')),
+      catchError(this.handleError<Client>('uploadingNoteDoc'))
+    );
+
+  }
+
+  downloadNoteDoc(filename: String): Observable<HttpEvent<Blob>>{
+    return this.http.get(this.noteDocUrl + '/' + filename, {observe: 'events', responseType: 'blob'}).pipe(
+      tap(_ => console.log('downloading note doc clients')),
+      catchError(this.handleError<HttpEvent<Blob>>('downloadNoteDoc'))
+    );
+  }
+
+    private handleError<T>(operation = 'operation', result?: T) {
+      return (error: any): Observable<T> => {
+
+        console.error(error); // log to console instead
+
+        console.log(`${operation} failed: ${error.message}`);
+
+        return of(result as T);
+      };
+    }
 
 
 }

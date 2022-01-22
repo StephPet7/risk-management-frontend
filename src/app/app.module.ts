@@ -19,6 +19,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { PopoverModule } from 'ngx-smart-popover';
+import {MatButtonModule} from "@angular/material/button";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -39,6 +41,8 @@ import { PopoverModule } from 'ngx-smart-popover';
     MatAutocompleteModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatButtonModule,
+    MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
     HighchartsChartModule,

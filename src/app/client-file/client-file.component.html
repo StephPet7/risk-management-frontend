@@ -227,7 +227,7 @@
                                     <label class="cursor-pointer mr-2" for="file_upload"><fa-icon class="text-lg ml-1" [icon]="file_upload_icon"></fa-icon></label>
                                     <input class="hidden w-0" id="file_upload" type="file" />
                                     <!-- <button (click)="downloadFile(element.filename)"><fa-icon class="text-lg ml-1 mr-1" [icon]="search_icon"></fa-icon></button> -->
-                                    <a target="_blank" [href]="'https://client-file.herokuapp.com/risk-management/client/note/file/' + element.filename"><fa-icon class="text-lg ml-1 mr-1" [icon]="search_icon"></fa-icon></a>
+                                    <a target="_blank" [href]="'https://risk-management-backend.herokuapp.com/risk-management/client/note/file/' + element.filename"><fa-icon class="text-lg ml-1 mr-1" [icon]="search_icon"></fa-icon></a>
                                 </div>
                             </div>
                         </td>
@@ -248,12 +248,12 @@
                 </table>
             </div>
 
-            <form [formGroup]="noteForm" (ngSubmit)="onSubmit()" class="pt-0 h-8 bg-white w-full flex">
+            <form [formGroup]="noteForm" (ngSubmit)="onSubmit(false)" class="pt-0 h-8 bg-white w-full flex">
                 <div class="w-2/12">
                     <span class="flex flex-row justify-around items-center p-0 w-full h-full">
-                        <button type="submit" class="font-bold">
+                        <button [disabled]="clientInfo.invalid || noteForm.invalid" mat-button color="primary" type="button" (click)="onSubmit(true)" class="font-bold new_need_button">
                           <span class="new_need">Nouveau besoin</span>
-                          <fa-icon class="bg-green-600 rounded text-lg w-7 h-7 text-center" [icon]="plus_icon"></fa-icon>
+                          <fa-icon class="bg-green-600 rounded text-lg w-15 h-11 text-center" [icon]="plus_icon"></fa-icon>
                         </button>
                     </span>
                 </div>
@@ -288,7 +288,7 @@
     </div>
 
     <div class="grid gap-6 grid-cols-6 doc">
-        <div class="col-span-4 col-start-1 flex flex-col">
+        <div class="col-span-3 col-start-1 flex flex-col">
             <div class="grid gap-x-1 gap-y-0 grid-cols-12 p-2 bg-gray-200 mt-20">
                 <div class="col-span-12 flex justify-center font-bold pb-3">Dossier</div>
                 <div class="col-span-4 col-start-7"><input class="doc_form_element" type="text"></div>
@@ -301,10 +301,7 @@
                     <fa-icon class="doc_icon" [icon]="eye_icon"></fa-icon>
                 </div>
                 <div class="col-span-1 col-start-7">
-                    <select name="strategy_status" id="" class="doc_form_element">
-                        <option value="correct" selected><fa-icon class="select_icon" [icon]="check_icon"></fa-icon></option>
-                        <option value="wrong"><fa-icon class="select_icon" [icon]="uncheck_icon"></fa-icon></option>
-                    </select>
+                  <mat-checkbox class="example-margin"></mat-checkbox>
                 </div>
                 <div class="col-span-5 col-start-8 flex items-center pl-5">Demander complement</div>
                 <div class="col-span-4 col-start-1">Plan de déploiement</div>
@@ -316,19 +313,16 @@
                     <fa-icon class="doc_icon" [icon]="eye_icon"></fa-icon>
                 </div>
                 <div class="col-span-1 col-start-7">
-                    <select name="plan_status" id="" class="doc_form_element">
-                        <option value="correct" selected><fa-icon class="select_icon" [icon]="check_icon"></fa-icon></option>
-                        <option value="wrong"><fa-icon class="select_icon" [icon]="uncheck_icon"></fa-icon></option>
-                    </select>
+                  <mat-checkbox class="example-margin"></mat-checkbox>
                 </div>
-                <div class="col-span-5 col-start-8"><input class="doc_form_element" type="text"></div>
+                <div class="col-span-4 col-start-9"><input class="doc_form_element" type="text"></div>
             </div>
             <div class="flex justify-end mt-auto">
-                <button class="doc_button bg-gray-200">Annuler</button>
-                <button class="doc_button bg-indigo-200">Valider</button>
+                <button mat-button type="reset" [disabled]="true" class="doc_button bg-gray-200">Annuler</button>
+                <button mat-button type="submit" (click)="onSubmit(false)" [disabled]="clientInfo.invalid" class="doc_button bg-indigo-200">Valider</button>
             </div>
         </div>
-        <div class="col-span-2 col-start-5">
+        <div class="col-span-4 col-start-4">
             <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" class="charts"></highcharts-chart>
         </div>
     </div>
