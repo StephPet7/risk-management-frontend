@@ -96,7 +96,6 @@ export class ClientFileComponent implements OnInit {
      this.noteForm.reset();
 
      this.getClients();
-     this.ngOnInit();
 
     // if(this.file !== null && this.file !== undefined){
     //   this.uploadFile(this.file);
